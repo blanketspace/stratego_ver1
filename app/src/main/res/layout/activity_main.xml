@@ -1,65 +1,651 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/buttons"
+        android:id="@+id/LeftBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/menu"
-            android:layout_width="wrap_content"
+            android:id="@+id/menuButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Menu" />
 
         <Button
-            android:id="@+id/surrender"
-            android:layout_width="wrap_content"
+            android:id="@+id/SurrenderButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Surrender" />
+            android:text="Surrender"
+            android:textSize="10dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/gameBoard"
+        android:id="@+id/MidContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
-
         <LinearLayout
+            android:id="@+id/TopBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/NumTroopYours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Your Troops: "
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/Numberyourtroops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/RankSelectedTroop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="Rank of troop: "
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/DisplayRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Miner"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/Time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="06:30"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/TurnText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="Turn: "
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/TurnNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="30"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/numTroopEnemy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="Enemy Troops: "
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/NumberEnemyTroops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="30"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/BoardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/BoardIBackGround"
+                android:layout_width="625dp"
+                android:layout_height="625dp"
+                android:background="@drawable/ic_launcher_background" />
+
+            <ImageView
+                android:id="@+id/waterLeft"
+                android:layout_width="115dp"
+                android:layout_height="108dp"
+                android:layout_marginLeft="110dp"
+                android:layout_marginTop="290dp"
+                app:srcCompat="@drawable/water" />
+
+            <ImageView
+                android:id="@+id/waterRight"
+                android:layout_width="115dp"
+                android:layout_height="108dp"
+                android:layout_marginLeft="400dp"
+                android:layout_marginTop="290dp"
+                app:srcCompat="@drawable/water" />
+
+            <ImageView
+                android:id="@+id/BlueUnit1"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                app:srcCompat="@drawable/blue10" />
+
+            <ImageView
+                android:id="@+id/BlueUnit2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="230dp"
+                android:layout_marginTop="348dp"
+                app:srcCompat="@drawable/blue2" />
+
+            <ImageView
+                android:id="@+id/BlueUnit3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="180dp"
+                app:srcCompat="@drawable/blue4" />
+
+            <ImageView
+                android:id="@+id/BlueUnit4"
+                android:layout_width="55dp"
+                android:layout_height="51dp"
+                android:layout_marginLeft="400dp"
+                android:layout_marginTop="174dp"
+                app:srcCompat="@drawable/blue6" />
+
+            <ImageView
+                android:id="@+id/BlueUnit5"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="58dp"
+                app:srcCompat="@drawable/blue8" />
+
+            <ImageView
+                android:id="@+id/BlueUnit6"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="60dp"
+                app:srcCompat="@drawable/blue6" />
+
+            <ImageView
+                android:id="@+id/BlueUnit7"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="520dp"
+                android:layout_marginTop="406dp"
+                app:srcCompat="@drawable/blue3" />
+
+            <ImageView
+                android:id="@+id/BlueUnit8"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="404dp"
+                app:srcCompat="@drawable/blue3" />
+
+            <ImageView
+                android:id="@+id/BlueUnit9"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="404dp"
+                android:layout_marginLeft="57dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+            <ImageView
+                android:id="@+id/BlueUnit10"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="462dp"
+                android:layout_marginLeft="57dp"
+                app:srcCompat="@drawable/blue5" />
+
+            <ImageView
+                android:id="@+id/BlueUnit11"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="462dp"
+                android:layout_marginLeft="114dp"
+                app:srcCompat="@drawable/blue5" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit12"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="404dp"
+                android:layout_marginLeft="114dp"
+                app:srcCompat="@drawable/blue9" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit13"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="462dp"
+                app:srcCompat="@drawable/blue2" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit14"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="230dp"
+                android:layout_marginTop="462dp"
+                app:srcCompat="@drawable/blue2" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit15"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="404dp"
+                android:layout_marginTop="462dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit16"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="520dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+            <ImageView
+                android:id="@+id/BlueUnit17"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="462dp"
+                android:layout_marginTop="520dp"
+                app:srcCompat="@drawable/blue3" />
+
+            <ImageView
+                android:id="@+id/BlueUnit18"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="406dp"
+                android:layout_marginTop="520dp"
+                app:srcCompat="@drawable/blueflag" />
+
+            <ImageView
+                android:id="@+id/BlueUnit19"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="406dp"
+                android:layout_marginTop="404dp"
+                app:srcCompat="@drawable/blue8" />
+
+            <ImageView
+                android:id="@+id/BlueUnit20"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="574dp"
+                android:layout_marginLeft="346dp"
+                app:srcCompat="@drawable/spyblue" />
+
+            <ImageView
+                android:id="@+id/BlueUnit21"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="286dp"
+                android:layout_marginTop="574dp"
+                app:srcCompat="@drawable/blue4" />
+
+            <ImageView
+                android:id="@+id/BlueUnit22"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="576dp"
+                android:layout_marginTop="574dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+            <ImageView
+                android:id="@+id/BlueUnit23"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="58dp"
+                app:srcCompat="@drawable/blue4" />
+
+            <ImageView
+                android:id="@+id/BlueUnit24"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="404dp"
+                android:layout_marginTop="574dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+            <ImageView
+                android:id="@+id/BlueUnit25"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="286dp"
+                android:layout_marginTop="462dp"
+                app:srcCompat="@drawable/bluebomb" />
+
+            <ImageView
+                android:id="@+id/BlueUnit26"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="520dp"
+                android:layout_marginTop="231dp"
+                app:srcCompat="@drawable/blue2" />
+
+            <ImageView
+                android:id="@+id/BlueUnit27"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="347dp"
+                android:layout_marginTop="288dp"
+                app:srcCompat="@drawable/blue2" />
+
+
+            <ImageView
+                android:id="@+id/BlueUnit28"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="116dp"
+                android:layout_marginTop="231dp"
+                app:srcCompat="@drawable/blue3" />
+
+            <ImageView
+                android:id="@+id/BlueUnit29"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="520dp"
+                android:layout_marginTop="171dp"
+                app:srcCompat="@drawable/blue7" />
+
+            <ImageView
+                android:id="@+id/BlueUnit30"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="345dp"
+                android:layout_marginTop="231dp"
+                app:srcCompat="@drawable/blue7" />
+
+            <ImageView
+                android:id="@+id/RedUnit1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="520dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit2"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="58dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit3"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="172dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit4"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="172dp"
+                android:layout_marginTop="62dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit5"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="574dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit6"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="574dp"
+                android:layout_marginTop="54dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit7"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="518dp"
+                android:layout_marginTop="54dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit8"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="574dp"
+                android:layout_marginTop="346dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit9"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="462dp"
+                android:layout_marginTop="232dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit10"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="404dp"
+                android:layout_marginTop="116dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit11"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="289dp"
+                android:layout_marginTop="116dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit12"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="404dp"
+                android:layout_marginTop="232dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit13"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="230dp"
+                android:layout_marginTop="174dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit14"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="289dp"
+                android:layout_marginTop="288dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit15"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="462dp"
+                android:layout_marginTop="464dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit16"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="58dp"
+                android:layout_marginTop="346dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit17"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="58dp"
+                android:layout_marginTop="288dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit18"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="346dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit19"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="518dp"
+                android:layout_marginTop="114dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit20"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="2dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit21"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="172dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit22"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="519dp"
+                android:layout_marginTop="347dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit23"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="172dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit24"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="232dp"
+                android:layout_marginTop="232dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit25"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="463dp"
+                android:layout_marginTop="58dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit26"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="518dp"
+                android:layout_marginTop="518dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit27"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="404dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit28"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="113dp"
+                android:layout_marginTop="115dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit29"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="230dp"
+                android:layout_marginTop="115dp"
+                app:srcCompat="@drawable/redhidden" />
+
+            <ImageView
+                android:id="@+id/RedUnit30"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="114dp"
+                android:layout_marginTop="60dp"
+                app:srcCompat="@drawable/redhidden" />
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/rightSide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"></LinearLayout>
+        android:id="@+id/RightContent"
+        android:layout_width="412dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/GraveYoursText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Graveyard"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
 </LinearLayout>
