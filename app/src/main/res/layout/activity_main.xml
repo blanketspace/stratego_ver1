@@ -675,11 +675,11 @@
                     android:layout_height="match_parent" >
 
                     <ImageView
-                        android:id="@+id/blu8"
+                        android:id="@+id/blu6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/blue8" />
+                        app:srcCompat="@drawable/blue6" />
 
                     <ImageView
                         android:id="@+id/blu2"
@@ -693,7 +693,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/blue9" />
+                        app:srcCompat="@drawable/blue2" />
 
                     <ImageView
                         android:id="@+id/capturedBlues5"
@@ -727,14 +727,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/blue7" />
+                        app:srcCompat="@drawable/blue3" />
 
                     <ImageView
                         android:id="@+id/blue9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/blue9" />
+                        app:srcCompat="@drawable/blue4" />
 
                     <ImageView
                         android:id="@+id/blue6"
@@ -748,7 +748,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/blue2" />
+                        app:srcCompat="@drawable/blue5" />
                 </TableRow>
 
                 <TableRow
