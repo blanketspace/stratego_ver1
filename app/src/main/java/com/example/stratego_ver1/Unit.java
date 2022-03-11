@@ -3,7 +3,9 @@ package com.example.stratego_ver1;
 /**
  * class Unit
  *
- * @authors Anne Marie Blank, Harry Vu, Vincent Truong, Kathryn Weidman
+ * @author Anne Marie Blank,
+ * @author Harry Vu,
+ * @author Vincent Truong
  * @version 2/24/2022
  */
 public class Unit {
@@ -18,7 +20,7 @@ public class Unit {
     public static final int SCOUT = 2;
     public static final int MINER = 3;
     public static final int SERGEANT = 4;
-    public static final int LIEUTENANTS = 5;
+    public static final int LIEUTENANT = 5;
     public static final int CAPTAIN = 6;
     public static final int MAJOR = 7;
     public static final int COLONEL = 8;
