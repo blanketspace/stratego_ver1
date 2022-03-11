@@ -344,15 +344,15 @@ public class StrategoGameState {
      * @param playerId  the ID of the user attempting to make a selection
      */
     public void clearSelection(int playerId){
-        if(playerId == 0){
-            for(int i= 0; i <= p1Troops.size(); i++){
-                p1Troops.get(i).setSelected(false);
-            }
-        }
-        else if(playerId == 1){
-            for(int i= 0; i <= p2Troops.size(); i++){
-                p2Troops.get(i).setSelected(false);
-            }
+        switch (playerId) {
+            case (0):
+                for(int i= 0; i <= p1Troops.size(); i++){
+                    p1Troops.get(i).setSelected(false);
+                }
+            case (1):
+                for(int i= 0; i <= p2Troops.size(); i++){
+                    p2Troops.get(i).setSelected(false);
+                }
         }
     }//clearSelection
 
