@@ -13,7 +13,8 @@ import java.util.Arrays;
  * @author Anne Marie Blank,
  * @author Harry Vu,
  * @author Vincent Truong,
- * @version 2/27/2022
+ * @author Kathryn Weidman
+ * @version 3/10/2022
  */
 public class StrategoGameState {
 
@@ -26,6 +27,7 @@ public class StrategoGameState {
     private ArrayList<Unit> p2Troops;
 
     private boolean flagCaptured;
+    private boolean legal;
 
     /**
      * ctor
@@ -184,137 +186,129 @@ public class StrategoGameState {
         int chosenY = chosen.getyLoc();
         int chosenX = chosen.getxLoc();
         //1 = up, 2 = down, 3 = left, 4 = right
-        if(dir == 1){
-            if(gameboard[chosenX][chosenY- 1] == null && chosenY - 1 >= 0){
-                chosen.setyLoc(chosenY - 1);
-                gameboard[chosenX][chosenY] = chosen;
-                return true;
-            }
-            else if(gameboard[chosenX][chosenY - 1].getRank() == Unit.WATER){
-                return false;
-            }
-            else if (gameboard[chosenX][chosenY].getOwnerID() != playerID) {
-                //attack
-                int opponentRank = gameboard[chosenX][chosenY].getRank();
-                if (opponentRank > chosen.getRank()) {
-                    chosen.setStatus(false);
-                    gameboard[chosenX][chosenY] = null;
-                    return true;
-                } else {
-                    gameboard[chosenX][chosenY].setStatus(false);
-                    gameboard[chosenX][chosenY] = null;
-                    chosen.setxLoc(chosenY - 1);
+        switch(dir) {
+            case 1:
+                if (gameboard[chosenX][chosenY - 1] == null && chosenY - 1 >= 0) {
+                    chosen.setyLoc(chosenY - 1);
                     gameboard[chosenX][chosenY] = chosen;
-                    return true;
-                }
-            }
-                else{
-                    return false;
-                }
-
-        }
-        else if(dir == 2){
-            if(gameboard[chosenX][chosenY + 1] == null && chosenY + 1 <= 9){  //aka space is empty
-                chosen.setyLoc(chosenY + 1);  //move into space
-                gameboard[chosenX][chosenY] = chosen;
-                return true;
-            }
-            else if(gameboard[chosenX][chosenY + 1].getRank() == Unit.WATER){
-                return false;  //can't walk on water
-            }
-            else if(gameboard[chosenX][chosenY + 1].getOwnerID() != playerID){
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.WATER) {
+                    legal = false;
+                } else if (gameboard[chosenX][chosenY].getOwnerID() != playerID) {
                     //attack
-                int opponentRank = gameboard[chosenX][chosenY + 1].getRank();
-                if(opponentRank > chosen.getRank()){
-                    chosen.setStatus(false);  //you died
-                    gameboard[chosenX][chosenY] = null;  //empty space you were just in
-                    return true;
+                    int opponentRank = gameboard[chosenX][chosenY].getRank();
+                    if (opponentRank > chosen.getRank()) {
+                        chosen.setStatus(false);
+                        gameboard[chosenX][chosenY] = null;
+                        legal = true;
+                    } else {
+                        gameboard[chosenX][chosenY].setStatus(false);
+                        gameboard[chosenX][chosenY] = null;
+                        chosen.setxLoc(chosenY - 1);
+                        gameboard[chosenX][chosenY] = chosen;
+                        legal = true;
+                    }
+                } else {
+                    legal = false;
                 }
-                else {
-                    gameboard[chosenX][chosenY + 1].setStatus(false);  //they died
-                    gameboard[chosenX][chosenY] = null;  //empty the space you were just in
-                    chosen.setyLoc(chosenY + 1);  //move into opponent's space
-                    gameboard[chosenX][chosenY + 1] = chosen;  //report location to array
-                    return true;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-        else if(dir == 3) {
-            if (gameboard[chosenX - 1][chosenY] == null && chosenX - 1 >= 0) {
-                chosen.setxLoc(chosenX - 1);
-                gameboard[chosenX - 1][chosenY] = chosen;
-                return true;
-            }
-            else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.WATER) {
-                return false;
-            }
-            else if (gameboard[chosenX - 1][chosenY].getOwnerID() != playerID) {
-                //attack
-                int opponentRank = gameboard[chosenX - 1][chosenY].getRank();
+                break;
+            //End case 1
 
-                if (opponentRank > chosen.getRank()) {
-                    chosen.setStatus(false);  //you died
-                    gameboard[chosenX][chosenY] = null;
-                    return true;
+            case 2:
+                if (gameboard[chosenX][chosenY + 1] == null && chosenY + 1 <= 9) {  //aka space is empty
+                    chosen.setyLoc(chosenY + 1);  //move into space
+                    gameboard[chosenX][chosenY] = chosen;
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.WATER) {
+                    legal = false;  //can't walk on water
+                } else if (gameboard[chosenX][chosenY + 1].getOwnerID() != playerID) {
+                    //attack
+                    int opponentRank = gameboard[chosenX][chosenY + 1].getRank();
+                    if (opponentRank > chosen.getRank()) {
+                        chosen.setStatus(false);  //you died
+                        gameboard[chosenX][chosenY] = null;  //empty space you were just in
+                        legal = true;
+                    } else {
+                        gameboard[chosenX][chosenY + 1].setStatus(false);  //they died
+                        gameboard[chosenX][chosenY] = null;  //empty the space you were just in
+                        chosen.setyLoc(chosenY + 1);  //move into opponent's space
+                        gameboard[chosenX][chosenY + 1] = chosen;  //report location to array
+                        legal = true;
+                    }
+                } else {
+                    legal = false;
                 }
-                else {
-                    gameboard[chosenX - 1][chosenY].setStatus(false);  //they died
-                    gameboard[chosenX][chosenY] = null;  //empty your spot
+                break;
+            //End case 2
+
+            case 3:
+                if (gameboard[chosenX - 1][chosenY] == null && chosenX - 1 >= 0) {
                     chosen.setxLoc(chosenX - 1);
-                    gameboard[chosenX - 1][chosenY] = chosen;  //take their spot
-                    return true;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-        else if(dir == 4){
-            if(chosenX + 1 <= 9){
-                if(gameboard[chosenX + 1][chosenY] == null && chosenX + 1<= 9) {
-                    chosen.setxLoc(chosenX + 1);
-                    gameboard[chosenX + 1][chosenY] = chosen;
-                    return true;
-                }
-                else if(gameboard[chosenX + 1][chosenY].getRank() == Unit.WATER){
-                    return false;
-                }
-                else {
-                    if(gameboard[chosenX + 1][chosenY].getOwnerID() != playerID){
-                        //attack
-                        int opponentRank = gameboard[chosenX + 1][chosenY].getRank();
+                    gameboard[chosenX - 1][chosenY] = chosen;
+                    legal = true;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.WATER) {
+                    legal = false;
+                } else if (gameboard[chosenX - 1][chosenY].getOwnerID() != playerID) {
+                    //attack
+                    int opponentRank = gameboard[chosenX - 1][chosenY].getRank();
 
-                        if(opponentRank > chosen.getRank()){
-                            chosen.setStatus(false);  //you died
-                            gameboard[chosenX][chosenY] = null;
-                            return true;
-                        }
-                        else if(opponentRank <= chosen.getRank()){
-                            gameboard[chosenX + 1][chosenY].setStatus(false);  //they died
-                            gameboard[chosenX][chosenY] = null;  //empty your space
-                            chosen.setxLoc(chosenX + 1);
-                            gameboard[chosenX + 1][chosenY] = chosen;  //take theirs
-                            return true;
-                        }
-                        else{
-                            return false;
-                        }
+                    if (opponentRank > chosen.getRank()) {
+                        chosen.setStatus(false);  //you died
+                        gameboard[chosenX][chosenY] = null;
+                        legal = true;
+                    } else {
+                        gameboard[chosenX - 1][chosenY].setStatus(false);  //they died
+                        gameboard[chosenX][chosenY] = null;  //empty your spot
+                        chosen.setxLoc(chosenX - 1);
+                        gameboard[chosenX - 1][chosenY] = chosen;  //take their spot
+                        legal = true;
                     }
-                    else{
-                        return false;
+                } else {
+                    legal = false;
+                }
+                break;
+            //End case 3
+
+            case 4:
+                if (chosenX + 1 <= 9) {
+                    if (gameboard[chosenX + 1][chosenY] == null && chosenX + 1 <= 9) {
+                        chosen.setxLoc(chosenX + 1);
+                        gameboard[chosenX + 1][chosenY] = chosen;
+                        legal = true;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.WATER) {
+                        legal = false;
+                    } else {
+                        if (gameboard[chosenX + 1][chosenY].getOwnerID() != playerID) {
+                            //attack
+                            int opponentRank = gameboard[chosenX + 1][chosenY].getRank();
+
+                            if (opponentRank > chosen.getRank()) {
+                                chosen.setStatus(false);  //you died
+                                gameboard[chosenX][chosenY] = null;
+                                legal = true;
+                            } else if (opponentRank <= chosen.getRank()) {
+                                gameboard[chosenX + 1][chosenY].setStatus(false);  //they died
+                                gameboard[chosenX][chosenY] = null;  //empty your space
+                                chosen.setxLoc(chosenX + 1);
+                                gameboard[chosenX + 1][chosenY] = chosen;  //take theirs
+                                legal = true;
+                            } else {
+                                legal = false;
+                            }
+                        } else {
+                            legal = false;
+                        }
+
                     }
                 }
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
+                break;
+            //End of case 4
+            default:
+                legal = false;
+                break;
+            //End of default case
+        }//End switch-case
+        return legal;
     }//movePiece
 
 
@@ -345,14 +339,16 @@ public class StrategoGameState {
      */
     public void clearSelection(int playerId){
         switch (playerId) {
-            case (0):
+            case 0:
                 for(int i= 0; i <= p1Troops.size(); i++){
                     p1Troops.get(i).setSelected(false);
                 }
-            case (1):
+                break;
+            case 1:
                 for(int i= 0; i <= p2Troops.size(); i++){
                     p2Troops.get(i).setSelected(false);
                 }
+                break;
         }
     }//clearSelection
 
