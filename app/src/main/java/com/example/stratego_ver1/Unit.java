@@ -26,9 +26,10 @@ public class Unit {
     public static final int COLONEL = 8;
     public static final int GENERAL = 9;
     public static final int MARSHAL = 10;
-    public static final int WATER = 11; //we probably want water
-    public static final int BOMB = 12;
-    public static final int FLAG = 13;
+    public static final int BOMB = 11;
+    public static final int FLAG = 12;
+    public static final int WATER = 13; //only completely non-movable piece
+
 
     /*** Nothing else needs to be added in this Unit class
      * IMPORTANT ELABORATION: Every unit has their ownerID, meaning that
@@ -58,25 +59,27 @@ public class Unit {
     }
 
     public void setSelected(boolean selected) {
-        if(isDead == false) {
+        if(!isDead) {
             isSelected = selected;
         }
     }
-
+    public boolean getSelected(){
+        return this.isSelected;
+    }
     public void setStatus(boolean dead){
-        isDead = dead;
+        this.isDead = dead;
     }
 
     public boolean getStatus(){
-        return isDead;
+        return this.isDead;
     }
 
     public int getxLoc() {
-        return xLoc;
+        return this.xLoc;
     }
 
     public int getyLoc() {
-        return yLoc;
+        return this.yLoc;
     }
 
     public void setxLoc(int xLoc) {

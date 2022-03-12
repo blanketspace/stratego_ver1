@@ -140,8 +140,7 @@ public class StrategoGameState {
      * @Override
      */
     public StrategoGameState(StrategoGameState orig){
-        //gameboard = orig.gameboard;
-
+        //initialize new gameboard to be just like the old one
         for(int i = 0; i < gameboard.length; i++){
             for(int j = 0; j < gameboard[i].length; j++){
                 gameboard[i][j] = orig.gameboard[i][j];
@@ -185,9 +184,10 @@ public class StrategoGameState {
     public boolean movePiece(int playerID, Unit chosen, int dir){
         int chosenY = chosen.getyLoc();
         int chosenX = chosen.getxLoc();
+
         //1 = up, 2 = down, 3 = left, 4 = right
         switch(dir) {
-            case 1:
+            case 1:  //aka "up"
                 if (gameboard[chosenX][chosenY - 1] == null && chosenY - 1 >= 0) {
                     chosen.setyLoc(chosenY - 1);
                     gameboard[chosenX][chosenY] = chosen;
@@ -214,7 +214,7 @@ public class StrategoGameState {
                 break;
             //End case 1
 
-            case 2:
+            case 2:  //aka "down"
                 if (gameboard[chosenX][chosenY + 1] == null && chosenY + 1 <= 9) {  //aka space is empty
                     chosen.setyLoc(chosenY + 1);  //move into space
                     gameboard[chosenX][chosenY] = chosen;
@@ -241,7 +241,7 @@ public class StrategoGameState {
                 break;
             //End case 2
 
-            case 3:
+            case 3:  //aka "left"
                 if (gameboard[chosenX - 1][chosenY] == null && chosenX - 1 >= 0) {
                     chosen.setxLoc(chosenX - 1);
                     gameboard[chosenX - 1][chosenY] = chosen;
@@ -269,7 +269,7 @@ public class StrategoGameState {
                 break;
             //End case 3
 
-            case 4:
+            case 4:  //aka "right"
                 if (chosenX + 1 <= 9) {
                     if (gameboard[chosenX + 1][chosenY] == null && chosenX + 1 <= 9) {
                         chosen.setxLoc(chosenX + 1);
@@ -303,11 +303,13 @@ public class StrategoGameState {
                 }
                 break;
             //End of case 4
+
             default:
                 legal = false;
                 break;
             //End of default case
         }//End switch-case
+
         return legal;
     }//movePiece
 
@@ -329,6 +331,7 @@ public class StrategoGameState {
             return false;
         }
     }//selectPiece
+
 
     /**
      * clearSelection
@@ -355,17 +358,18 @@ public class StrategoGameState {
     /**
      * placePiece
      *
-     * TODO: isn't this action already handled in movePiece?
+     * meant for the beginning stage of the game, when players
+     * move their pieces from the starting location (graveyard) and onto the board
      *
-     * @param playerID
-     * @param unit
-     * @param x
-     * @param y
-     * @return
+     * @param playerID  the id of the player making the move
+     * @param unit      the unit they're moving
+     * @param x         x coord of new location
+     * @param y         y coord of new location
+     * @return          true if alive and movement is valid, false if not
      */
     public boolean placePiece(int playerID, Unit unit, int x, int y) {
         if (unit.getStatus()) {
-            if (playerID == 0 && y < 4) {
+            if (playerID == 0 && y < 4) {  //< 4 is for boundary purposes, ensures piece is on your side
                 unit.setxLoc(x);
                 unit.setxLoc(y);
                 gameboard[x][y] = unit;
@@ -385,6 +389,22 @@ public class StrategoGameState {
             return false;
         }
     }//placePiece
+
+    /**
+     * getUnit
+     *
+     * @param id    the id of the player whose "hand" you want to access
+     * @param index the index you want to access
+     * @return      the unit at the given index in the player's "hand"
+     */
+    public Unit getUnit(int id, int index){
+       if(id == 0){
+           return p1Troops.get(index);
+       }
+       else{
+           return p2Troops.get(index);
+       }
+    }//getUnit
 
 }//StrategoGameState
 
