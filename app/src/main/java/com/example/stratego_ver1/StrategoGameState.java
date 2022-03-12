@@ -194,6 +194,10 @@ public class StrategoGameState {
                     legal = true;
                 } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.WATER) {
                     legal = false;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
                 } else if (gameboard[chosenX][chosenY].getOwnerID() != playerID) {
                     //attack
                     int opponentRank = gameboard[chosenX][chosenY].getRank();
@@ -221,6 +225,10 @@ public class StrategoGameState {
                     legal = true;
                 } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.WATER) {
                     legal = false;  //can't walk on water
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
                 } else if (gameboard[chosenX][chosenY + 1].getOwnerID() != playerID) {
                     //attack
                     int opponentRank = gameboard[chosenX][chosenY + 1].getRank();
@@ -248,6 +256,10 @@ public class StrategoGameState {
                     legal = true;
                 } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.WATER) {
                     legal = false;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
                 } else if (gameboard[chosenX - 1][chosenY].getOwnerID() != playerID) {
                     //attack
                     int opponentRank = gameboard[chosenX - 1][chosenY].getRank();
@@ -277,6 +289,10 @@ public class StrategoGameState {
                         legal = true;
                     } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.WATER) {
                         legal = false;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.FLAG) {
+                        legal = true;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.BOMB){
+                        legal = isMinerAttack(chosen.getRank());
                     } else {
                         if (gameboard[chosenX + 1][chosenY].getOwnerID() != playerID) {
                             //attack
@@ -405,6 +421,15 @@ public class StrategoGameState {
            return p2Troops.get(index);
        }
     }//getUnit
+
+    public boolean isMinerAttack(int chosenRank){
+        if(chosenRank == Unit.MINER){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 }//StrategoGameState
 
