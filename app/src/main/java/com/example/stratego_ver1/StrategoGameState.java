@@ -150,8 +150,15 @@ public class StrategoGameState {
         flagCaptured = orig.flagCaptured;
         whoseTurn = orig.whoseTurn;
         roundNumber = orig.roundNumber;
-        p1Troops = orig.p1Troops;
-        p2Troops = orig.p2Troops;
+        p1Troops = new ArrayList<>();
+        p2Troops = new ArrayList<>();
+        //makes a deep copy of the the troops arraylist
+        for(int i = 0; i < p1Troops.size(); i++){
+            p1Troops.add(orig.p1Troops.get(i));
+        }
+        for(int i = 0; i < p2Troops.size(); i++){
+            p2Troops.add(orig.p2Troops.get(i));
+        }
 
     }//copy ctor
 
