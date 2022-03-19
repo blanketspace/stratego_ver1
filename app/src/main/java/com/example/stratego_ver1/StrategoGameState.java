@@ -14,7 +14,7 @@ import java.util.Arrays;
  * @author Harry Vu,
  * @author Vincent Truong,
  * @author Kathryn Weidman
- * @version 3/10/2022
+ * @version 3/11/2022
  */
 public class StrategoGameState {
 
@@ -160,8 +160,16 @@ public class StrategoGameState {
      */
     @Override
     public String toString() {
-        return "Turn:" + whoseTurn + "Player 1 Troops: " + p1Troops
-                + "Player 2 Troops: " + p2Troops + "Time Elapsed: " + timeElapsed
+        String foo = null;
+        for(int i = 0; i < p1Troops.size(); i++){
+            foo = "" + p1Troops.get(i).nameRank() + " ";
+        }
+        String bar = null;
+        for(int i = 0; i < p2Troops.size(); i++){
+            bar = "" + p2Troops.get(i).nameRank() + " ";
+        }
+        return "Turn:" + whoseTurn + "Player 1 Troops: " + foo
+                + "Player 2 Troops: " + bar + "Time Elapsed: " + timeElapsed
                 + "Flag Captured?: " + flagCaptured;
     }//toString
 
@@ -338,7 +346,7 @@ public class StrategoGameState {
      * @param chosenP    the Unit being selected
      */
     public boolean selectPiece(int playerID, Unit chosenP){
-        if(chosenP.getOwnerID() == playerID){
+        if (chosenP.getOwnerID() == playerID) {
             clearSelection(playerID);  //sets all Units to false
             chosenP.setSelected(true); //sets selection to true
             return true;
@@ -356,7 +364,7 @@ public class StrategoGameState {
      *
      * @param playerId  the ID of the user attempting to make a selection
      */
-    public void clearSelection(int playerId){
+    public void clearSelection(int playerId) {
         switch (playerId) {
             case 0:
                 for(int i= 0; i <= p1Troops.size(); i++){

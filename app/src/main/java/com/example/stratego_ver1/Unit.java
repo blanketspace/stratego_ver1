@@ -1,12 +1,14 @@
 package com.example.stratego_ver1;
 
+import android.graphics.Canvas;
+
 /**
  * class Unit
  *
  * @author Anne Marie Blank,
  * @author Harry Vu,
  * @author Vincent Truong
- * @version 2/24/2022
+ * @version 3/11/2022
  */
 public class Unit {
     /**
@@ -50,6 +52,21 @@ public class Unit {
         isDead = false;
     }
 
+    /**
+     * drawMe
+     *
+     * method to get the Unit onto the GUI board
+     *
+     * @param canvas  the drawing space for the Unit
+     */
+    public void drawMe(Canvas canvas){
+        //TODO: need a rect somewhere with constant/final dimensions
+        //TODO: need a color (designated by owner id?)
+        //TODO: maybe xy locations to be drawn in? no clue how we'll get those
+        //TODO: death by ifs for each rank's visual aspect?
+
+    }
+
     public int getOwnerID(){
         return this.ownerID;
     }
@@ -63,9 +80,11 @@ public class Unit {
             isSelected = selected;
         }
     }
+
     public boolean getSelected(){
         return this.isSelected;
     }
+
     public void setStatus(boolean dead){
         this.isDead = dead;
     }
@@ -89,4 +108,37 @@ public class Unit {
     public void setyLoc(int yLoc) {
         this.yLoc = yLoc;
     }
-}
+
+    public String nameRank() {
+        String name;
+        switch (this.rank)
+        {
+            case 1:
+                return "Spy";
+            case 2:
+                return "Scout";
+            case 3:
+                return "Miner";
+            case 4:
+                return "Sergeant";
+            case 5:
+                return "Lieutenant";
+            case 6:
+                return "Captain";
+            case 7:
+                return "Major";
+            case 8:
+                return "Colonel";
+            case 9:
+                return "General";
+            case 10:
+                return "Marshal";
+            case 11:
+                return "Bomb";
+            case 12:
+                return "Flag";
+        }
+        return "bad";
+    }
+
+}//class Unit
