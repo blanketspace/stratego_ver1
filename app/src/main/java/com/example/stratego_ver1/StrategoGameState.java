@@ -1,5 +1,7 @@
 package com.example.stratego_ver1;
 
+import android.icu.text.UnicodeSetIterator;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,8 +10,11 @@ import java.util.Arrays;
  *
  * (will eventually extend GameState interface in the GameFramework)
  *
- * @authors Anne Marie Blank, Harry Vu, Vincent Truong, Kathryn Weidman
- * @version 2/24/2022
+ * @author Anne Marie Blank,
+ * @author Harry Vu,
+ * @author Vincent Truong,
+ * @author Kathryn Weidman
+ * @version 3/10/2022
  */
 public class StrategoGameState {
 
@@ -22,6 +27,7 @@ public class StrategoGameState {
     private ArrayList<Unit> p2Troops;
 
     private boolean flagCaptured;
+    private boolean legal;
 
     /**
      * ctor
@@ -43,98 +49,86 @@ public class StrategoGameState {
     }//ctor
 
     /**
-     * 1-- 10,9
-     * 2-- 8
-     * 3-- 7
-     * 4-- 5, 4
-     * 5-- 3
-     * 8-- 2
-     * 1-- spy(1)
-     * 6-- bomb(12)
-     * 1-- flag(13)
-     *
      * fillRanks
      *
      * helper method to fill the player's Troop Arrays
      */
     public void fillRanks(int pID) {
         if (pID == 0) {
-            p1Troops.add(new Unit(0, 10));
-            p1Troops.add(new Unit(0, 9));
-            p1Troops.add(new Unit(0, 13));
-            p1Troops.add(new Unit(0, 1));
-            p1Troops.add(new Unit(0, 8));
-            p1Troops.add(new Unit(0, 8));
+            p1Troops.add(new Unit(0, Unit.MARSHAL));
+            p1Troops.add(new Unit(0, Unit.GENERAL));
+            p1Troops.add(new Unit(0, Unit.FLAG));
+            p1Troops.add(new Unit(0, Unit.SPY));
 
-            p1Troops.add(new Unit(0, 7));
-            p1Troops.add(new Unit(0, 7));
-            p1Troops.add(new Unit(0, 7));
+            p1Troops.add(new Unit(0, Unit.COLONEL));
+            p1Troops.add(new Unit(0, Unit.COLONEL));
 
-            p1Troops.add(new Unit(0, 4));
-            p1Troops.add(new Unit(0, 4));
-            p1Troops.add(new Unit(0, 4));
-            p1Troops.add(new Unit(0, 4));
+            p1Troops.add(new Unit(0, Unit.MAJOR));
+            p1Troops.add(new Unit(0, Unit.MAJOR));
+            p1Troops.add(new Unit(0, Unit.MAJOR));
 
-            p1Troops.add(new Unit(0, 5));
-            p1Troops.add(new Unit(0, 5));
-            p1Troops.add(new Unit(0, 5));
-            p1Troops.add(new Unit(0, 5));
+            for(int i = 0; i < 3; i++){
+                p1Troops.add(new Unit(0, Unit.SERGEANT));
+            }
 
-            p1Troops.add(new Unit(0, 6));
-            p1Troops.add(new Unit(0, 6));
-            p1Troops.add(new Unit(0, 6));
-            p1Troops.add(new Unit(0, 6));
+            for(int i = 0; i < 3; i++){
+                p1Troops.add(new Unit(0, Unit.LIEUTENANT));
+            }
+
+            for(int i = 0; i < 3; i++){
+                p1Troops.add(new Unit(0, Unit.CAPTAIN));
+            }
 
             for (int i = 0; i < 4; i++) {
-                p1Troops.add(new Unit(0, 3));
+                p1Troops.add(new Unit(0, Unit.MINER));
             }
 
             for (int i = 0; i < 7; i++) {
-                p1Troops.add(new Unit(0, 2));
+                p1Troops.add(new Unit(0, Unit.SCOUT));
             }
 
             for (int i = 0; i < 5; i++) {
-                p1Troops.add(new Unit(0, 12));
+                p1Troops.add(new Unit(0, Unit.BOMB));
             }
 
         } else if (pID == 1) {
-            p2Troops.add(new Unit(0, 10));
-            p2Troops.add(new Unit(0, 9));
-            p2Troops.add(new Unit(0, 13));
-            p2Troops.add(new Unit(0, 1));
+            p2Troops.add(new Unit(0, Unit.MARSHAL));
+            p2Troops.add(new Unit(0, Unit.GENERAL));
+            p2Troops.add(new Unit(0, Unit.FLAG));
+            p2Troops.add(new Unit(0, Unit.SPY));
 
-            p2Troops.add(new Unit(0, 8));
-            p2Troops.add(new Unit(0, 8));
+            p2Troops.add(new Unit(0, Unit.COLONEL));
+            p2Troops.add(new Unit(0, Unit.COLONEL));
 
-            p2Troops.add(new Unit(0, 7));
-            p2Troops.add(new Unit(0, 7));
-            p2Troops.add(new Unit(0, 7));
+            p2Troops.add(new Unit(0, Unit.MAJOR));
+            p2Troops.add(new Unit(0, Unit.MAJOR));
+            p2Troops.add(new Unit(0, Unit.MAJOR));
 
-            p2Troops.add(new Unit(0, 4));
-            p2Troops.add(new Unit(0, 4));
-            p2Troops.add(new Unit(0, 4));
-            p2Troops.add(new Unit(0, 4));
+            p2Troops.add(new Unit(0, Unit.SERGEANT));
+            p2Troops.add(new Unit(0, Unit.SERGEANT));
+            p2Troops.add(new Unit(0, Unit.SERGEANT));
+            p2Troops.add(new Unit(0, Unit.SERGEANT));
 
-            p2Troops.add(new Unit(0, 5));
-            p2Troops.add(new Unit(0, 5));
-            p2Troops.add(new Unit(0, 5));
-            p2Troops.add(new Unit(0, 5));
+            p2Troops.add(new Unit(0, Unit.LIEUTENANT));
+            p2Troops.add(new Unit(0, Unit.LIEUTENANT));
+            p2Troops.add(new Unit(0, Unit.LIEUTENANT));
+            p2Troops.add(new Unit(0, Unit.LIEUTENANT));
 
-            p2Troops.add(new Unit(0, 6));
-            p2Troops.add(new Unit(0, 6));
-            p2Troops.add(new Unit(0, 6));
-            p2Troops.add(new Unit(0, 6));
+            p2Troops.add(new Unit(0, Unit.CAPTAIN));
+            p2Troops.add(new Unit(0, Unit.CAPTAIN));
+            p2Troops.add(new Unit(0, Unit.CAPTAIN));
+            p2Troops.add(new Unit(0, Unit.CAPTAIN));
 
             for (int i = 0; i < 4; i++) {
-                p2Troops.add(new Unit(0, 3));
+                p2Troops.add(new Unit(0, Unit.MINER));
             }
 
             for (int i = 0; i < 7; i++) {
-                p2Troops.add(new Unit(0, 2));
+                p2Troops.add(new Unit(0, Unit.SCOUT));
             }
 
             for (int i = 0; i < 5; i++) {
-                p2Troops.add(new Unit(0, 12));
+                p2Troops.add(new Unit(0, Unit.BOMB));
             }
         }
     }//fillRanks
@@ -146,7 +140,12 @@ public class StrategoGameState {
      * @Override
      */
     public StrategoGameState(StrategoGameState orig){
-        gameboard = orig.gameboard;
+        //initialize new gameboard to be just like the old one
+        for(int i = 0; i < gameboard.length; i++){
+            for(int j = 0; j < gameboard[i].length; j++){
+                gameboard[i][j] = orig.gameboard[i][j];
+            }
+        }
         flagCaptured = orig.flagCaptured;
         whoseTurn = orig.whoseTurn;
         roundNumber = orig.roundNumber;
@@ -191,204 +190,151 @@ public class StrategoGameState {
      * @return  false if move is illegal, true otherwise
      */
     public boolean movePiece(int playerID, Unit chosen, int dir){
+        int chosenY = chosen.getyLoc();
+        int chosenX = chosen.getxLoc();
+
         //1 = up, 2 = down, 3 = left, 4 = right
-        if(dir == 1){
-            if(gameboard[chosen.getxLoc()][chosen.getyLoc() - 1] == null && chosen.getyLoc() - 1 >= 0){
-                chosen.setyLoc(chosen.getyLoc() - 1);
-                gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                return true;
-            }
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() - 1].getRank() == Unit.WATER){
-                return false;
-            }
-
-            //if the opponent's piece is a bomb tile
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() - 1].getRank() == Unit.BOMB){
-                return isMinerAttack(chosen.getRank());
-            }
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() - 1].getRank() == Unit.FLAG){
-                flagCaptured = true;
-                return true;
-            }
-
-            else if (gameboard[chosen.getxLoc()][chosen.getyLoc()].getOwnerID() != playerID) {
-                //attack
-                int opponentRank = gameboard[chosen.getxLoc()][chosen.getyLoc()].getRank();
-                if (opponentRank > chosen.getRank()) {
-                    chosen.setStatus(false);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                    return true;
-                } else if (opponentRank < chosen.getRank()) {
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                    chosen.setxLoc(chosen.getyLoc() - 1);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                    return true;
-                } else { //equal rank, attacker wins
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                    chosen.setxLoc(chosen.getyLoc() - 1);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                    return true;
-                }
-            }
-                else{
-                    return false;
-                }
-
-        }
-        else if(dir == 2){
-            if(gameboard[chosen.getxLoc()][chosen.getyLoc() + 1] == null && chosen.getyLoc() + 1 <= 9){
-                chosen.setyLoc(chosen.getyLoc() + 1);
-                gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                return true;
-            }
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() + 1].getRank() == Unit.WATER){
-                return false;
-            }
-
-            //if the opponent's piece is a bomb tile
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() + 1].getRank() == Unit.BOMB){
-                return isMinerAttack(chosen.getRank());
-            }
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc() + 1].getRank() == Unit.FLAG){
-                flagCaptured = true;
-                return true;
-            }
-
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc()].getOwnerID() != playerID){
+        switch(dir) {
+            case 1:  //aka "up"
+                if (gameboard[chosenX][chosenY - 1] == null && chosenY - 1 >= 0) {
+                    chosen.setyLoc(chosenY - 1);
+                    gameboard[chosenX][chosenY] = chosen;
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.WATER) {
+                    legal = false;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
+                } else if (gameboard[chosenX][chosenY].getOwnerID() != playerID) {
                     //attack
-                    int opponentRank = gameboard[chosen.getxLoc()][chosen.getyLoc()].getRank();
-                    if(opponentRank > chosen.getRank()){
+                    int opponentRank = gameboard[chosenX][chosenY].getRank();
+                    if (opponentRank > chosen.getRank()) {
                         chosen.setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        return true;
+                        gameboard[chosenX][chosenY] = null;
+                        legal = true;
+                    } else {
+                        gameboard[chosenX][chosenY].setStatus(false);
+                        gameboard[chosenX][chosenY] = null;
+                        chosen.setxLoc(chosenY - 1);
+                        gameboard[chosenX][chosenY] = chosen;
+                        legal = true;
                     }
-                    else if(opponentRank < chosen.getRank()){
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        chosen.setxLoc(chosen.getyLoc() + 1);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                        return true;
-                    }
-                    else{ //equal rank, attacker wins
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        chosen.setxLoc(chosen.getyLoc() + 1);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                        return true;
-                    }
+                } else {
+                    legal = false;
+                }
+                break;
+            //End case 1
 
-            }
-            else {
-                return false;
-            }
-        }
-        else if(dir == 3){
-            if(gameboard[chosen.getxLoc() - 1][chosen.getyLoc()] == null && chosen.getxLoc() - 1 >= 0){
-                chosen.setxLoc(chosen.getxLoc() - 1);
-                gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                return true;
-            }
-            else if(gameboard[chosen.getxLoc() - 1][chosen.getyLoc()].getRank() == Unit.WATER){
-                return false;
-            }
-
-            //if the opponent's piece is a bomb tile
-            else if(gameboard[chosen.getxLoc() - 1][chosen.getyLoc()].getRank() == Unit.BOMB){
-                return isMinerAttack(chosen.getRank());
-            }
-            else if(gameboard[chosen.getxLoc() - 1][chosen.getyLoc()].getRank() == Unit.FLAG){
-                flagCaptured = true;
-                return true;
-            }
-
-            else if(gameboard[chosen.getxLoc()][chosen.getyLoc()].getOwnerID() != playerID){
+            case 2:  //aka "down"
+                if (gameboard[chosenX][chosenY + 1] == null && chosenY + 1 <= 9) {  //aka space is empty
+                    chosen.setyLoc(chosenY + 1);  //move into space
+                    gameboard[chosenX][chosenY] = chosen;
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.WATER) {
+                    legal = false;  //can't walk on water
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
+                } else if (gameboard[chosenX][chosenY + 1].getOwnerID() != playerID) {
                     //attack
-                    int opponentRank = gameboard[chosen.getxLoc()][chosen.getyLoc()].getRank();
-                    if(opponentRank > chosen.getRank()){
-                        chosen.setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        return true;
+                    int opponentRank = gameboard[chosenX][chosenY + 1].getRank();
+                    if (opponentRank > chosen.getRank()) {
+                        chosen.setStatus(false);  //you died
+                        gameboard[chosenX][chosenY] = null;  //empty space you were just in
+                        legal = true;
+                    } else {
+                        gameboard[chosenX][chosenY + 1].setStatus(false);  //they died
+                        gameboard[chosenX][chosenY] = null;  //empty the space you were just in
+                        chosen.setyLoc(chosenY + 1);  //move into opponent's space
+                        gameboard[chosenX][chosenY + 1] = chosen;  //report location to array
+                        legal = true;
                     }
-                    else if(opponentRank < chosen.getRank()){
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        chosen.setxLoc(chosen.getxLoc() - 1);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                        return true;
+                } else {
+                    legal = false;
+                }
+                break;
+            //End case 2
+
+            case 3:  //aka "left"
+                if (gameboard[chosenX - 1][chosenY] == null && chosenX - 1 >= 0) {
+                    chosen.setxLoc(chosenX - 1);
+                    gameboard[chosenX - 1][chosenY] = chosen;
+                    legal = true;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.WATER) {
+                    legal = false;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.FLAG) {
+                    legal = true;
+                } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.BOMB){
+                    legal = isMinerAttack(chosen.getRank());
+                } else if (gameboard[chosenX - 1][chosenY].getOwnerID() != playerID) {
+                    //attack
+                    int opponentRank = gameboard[chosenX - 1][chosenY].getRank();
+
+                    if (opponentRank > chosen.getRank()) {
+                        chosen.setStatus(false);  //you died
+                        gameboard[chosenX][chosenY] = null;
+                        legal = true;
+                    } else {
+                        gameboard[chosenX - 1][chosenY].setStatus(false);  //they died
+                        gameboard[chosenX][chosenY] = null;  //empty your spot
+                        chosen.setxLoc(chosenX - 1);
+                        gameboard[chosenX - 1][chosenY] = chosen;  //take their spot
+                        legal = true;
                     }
-                    else{ //equal rank, attacker wins
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                        chosen.setxLoc(chosen.getxLoc() - 1);
-                        gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                        return true;
-                    }
+                } else {
+                    legal = false;
+                }
+                break;
+            //End case 3
 
-                }
-            else {
-                return false;
-            }
+            case 4:  //aka "right"
+                if (chosenX + 1 <= 9) {
+                    if (gameboard[chosenX + 1][chosenY] == null && chosenX + 1 <= 9) {
+                        chosen.setxLoc(chosenX + 1);
+                        gameboard[chosenX + 1][chosenY] = chosen;
+                        legal = true;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.WATER) {
+                        legal = false;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.FLAG) {
+                        legal = true;
+                    } else if (gameboard[chosenX + 1][chosenY].getRank() == Unit.BOMB){
+                        legal = isMinerAttack(chosen.getRank());
+                    } else {
+                        if (gameboard[chosenX + 1][chosenY].getOwnerID() != playerID) {
+                            //attack
+                            int opponentRank = gameboard[chosenX + 1][chosenY].getRank();
 
-        }
-        else if(dir == 4){
-            if(chosen.getxLoc() + 1 <= 9){
-                if(gameboard[chosen.getxLoc() + 1][chosen.getyLoc()] == null) {
-                    chosen.setxLoc(chosen.getxLoc() + 1);
-                    gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                    return true;
-                }
-                else if(gameboard[chosen.getxLoc() + 1][chosen.getyLoc()].getRank() == Unit.WATER){
-                    return false;
-                }
-
-                //if the opponent's piece is a bomb tile
-                else if(gameboard[chosen.getxLoc() + 1][chosen.getyLoc()].getRank() == Unit.BOMB){
-                    return isMinerAttack(chosen.getRank());
-                }
-                else if(gameboard[chosen.getxLoc() + 1][chosen.getyLoc()].getRank() == Unit.FLAG){
-                    flagCaptured = true;
-                    return true;
-                }
-                else {
-                    if(gameboard[chosen.getxLoc()][chosen.getyLoc()].getOwnerID() != playerID){
-                        //attack
-                        int opponentRank = gameboard[chosen.getxLoc()][chosen.getyLoc()].getRank();
-                        if(opponentRank > chosen.getRank()){
-                            chosen.setStatus(false);
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                            return true;
+                            if (opponentRank > chosen.getRank()) {
+                                chosen.setStatus(false);  //you died
+                                gameboard[chosenX][chosenY] = null;
+                                legal = true;
+                            } else if (opponentRank <= chosen.getRank()) {
+                                gameboard[chosenX + 1][chosenY].setStatus(false);  //they died
+                                gameboard[chosenX][chosenY] = null;  //empty your space
+                                chosen.setxLoc(chosenX + 1);
+                                gameboard[chosenX + 1][chosenY] = chosen;  //take theirs
+                                legal = true;
+                            } else {
+                                legal = false;
+                            }
+                        } else {
+                            legal = false;
                         }
-                        else if(opponentRank < chosen.getRank()){
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                            chosen.setxLoc(chosen.getxLoc() + 1);
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                            return true;
-                        }
-                        else{ //equal rank, attacker wins
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()].setStatus(false);
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()] = null;
-                            chosen.setxLoc(chosen.getxLoc() + 1);
-                            gameboard[chosen.getxLoc()][chosen.getyLoc()] = chosen;
-                            return true;
-                        }
 
-                    }
-                    else{
-                        return false;
                     }
                 }
-            }
-            else {
-                return false;
-            }
+                break;
+            //End of case 4
 
-        }
-        else {
-            return false;
-        }
+            default:
+                legal = false;
+                break;
+            //End of default case
+        }//End switch-case
+
+        return legal;
     }//movePiece
 
 
@@ -418,21 +364,35 @@ public class StrategoGameState {
      * @param playerId  the ID of the user attempting to make a selection
      */
     public void clearSelection(int playerId){
-        if(playerId == 0){
-            for(int i= 0; i <= p1Troops.size(); i++){
-                p1Troops.get(i).setSelected(false);
-            }
-        }
-        else if(playerId == 1){
-            for(int i= 0; i <= p2Troops.size(); i++){
-                p2Troops.get(i).setSelected(false);
-            }
+        switch (playerId) {
+            case 0:
+                for(int i= 0; i <= p1Troops.size(); i++){
+                    p1Troops.get(i).setSelected(false);
+                }
+                break;
+            case 1:
+                for(int i= 0; i <= p2Troops.size(); i++){
+                    p2Troops.get(i).setSelected(false);
+                }
+                break;
         }
     }//clearSelection
 
+    /**
+     * placePiece
+     *
+     * meant for the beginning stage of the game, when players
+     * move their pieces from the starting location (graveyard) and onto the board
+     *
+     * @param playerID  the id of the player making the move
+     * @param unit      the unit they're moving
+     * @param x         x coord of new location
+     * @param y         y coord of new location
+     * @return          true if alive and movement is valid, false if not
+     */
     public boolean placePiece(int playerID, Unit unit, int x, int y) {
         if (unit.getStatus()) {
-            if (playerID == 0 && y < 4) {
+            if (playerID == 0 && y < 4) {  //< 4 is for boundary purposes, ensures piece is on your side
                 unit.setxLoc(x);
                 unit.setxLoc(y);
                 gameboard[x][y] = unit;
@@ -450,18 +410,33 @@ public class StrategoGameState {
         }
         else {
             return false;
-            }
+        }
     }//placePiece
 
+    /**
+     * getUnit
+     *
+     * @param id    the id of the player whose "hand" you want to access
+     * @param index the index you want to access
+     * @return      the unit at the given index in the player's "hand"
+     */
+    public Unit getUnit(int id, int index){
+       if(id == 0){
+           return p1Troops.get(index);
+       }
+       else{
+           return p2Troops.get(index);
+       }
+    }//getUnit
 
-    public boolean isMinerAttack(int unitRank){
-        if(unitRank == Unit.MINER) {
+    public boolean isMinerAttack(int chosenRank){
+        if(chosenRank == Unit.MINER){
             return true;
         }
         else{
             return false;
         }
-    }//isMinerAttack
+    }
 
 }//StrategoGameState
 
