@@ -140,12 +140,14 @@ public class StrategoGameState {
      * @Override
      */
     public StrategoGameState(StrategoGameState orig){
-        //initialize new gameboard to be just like the old one
+        //initialize new gameboard by looping through the original
+        //game board and copying it into the new one.
         for(int i = 0; i < gameboard.length; i++){
             for(int j = 0; j < gameboard[i].length; j++){
                 gameboard[i][j] = orig.gameboard[i][j];
             }
         }
+        //initialize all of the needed variables using the original game state
         flagCaptured = orig.flagCaptured;
         whoseTurn = orig.whoseTurn;
         roundNumber = orig.roundNumber;
@@ -205,23 +207,33 @@ public class StrategoGameState {
         switch(dir) {
             case 1:  //aka "up"
                 if (gameboard[chosenX][chosenY - 1] == null && chosenY - 1 >= 0) {
+                    //It checks if moving up is legal by seeing if the it is a empty tile
+                    //and if the new move is within the bounds of the board
                     chosen.setyLoc(chosenY - 1);
                     gameboard[chosenX][chosenY] = chosen;
                     legal = true;
                 } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.WATER) {
+                    //If the user is trying to move into a water tile then it will reject it
+                    //because it is not a legal move.
                     legal = false;
                 } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.FLAG) {
                     legal = true;
                 } else if (gameboard[chosenX][chosenY - 1].getRank() == Unit.BOMB){
                     legal = isMinerAttack(chosen.getRank());
                 } else if (gameboard[chosenX][chosenY].getOwnerID() != playerID) {
-                    //attack
+                    //It checks if moving up is legal by seeing if the it is a enemy unit
                     int opponentRank = gameboard[chosenX][chosenY].getRank();
+                    //if users rank is lower than the player rank then the opponent unit then
+                    //it will "kill" the users unit.
                     if (opponentRank > chosen.getRank()) {
+                        //if users rank is lower than the player rank then the opponent unit then
+                        //it will "kill" the users unit.
                         chosen.setStatus(false);
                         gameboard[chosenX][chosenY] = null;
                         legal = true;
                     } else {
+                        //if users rank is higher than the player rank then the opponent unit then
+                        //it will "kill" the enemy unit and move the unit up one space.
                         gameboard[chosenX][chosenY].setStatus(false);
                         gameboard[chosenX][chosenY] = null;
                         chosen.setxLoc(chosenY - 1);
@@ -229,6 +241,7 @@ public class StrategoGameState {
                         legal = true;
                     }
                 } else {
+                    // This means that the move was not a valid move.
                     legal = false;
                 }
                 break;
@@ -236,23 +249,31 @@ public class StrategoGameState {
 
             case 2:  //aka "down"
                 if (gameboard[chosenX][chosenY + 1] == null && chosenY + 1 <= 9) {  //aka space is empty
+                    //It checks if moving down is legal by seeing if the it is a empty tile
+                    //and if the new move is within the bounds of the board
                     chosen.setyLoc(chosenY + 1);  //move into space
                     gameboard[chosenX][chosenY] = chosen;
                     legal = true;
                 } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.WATER) {
+                    //If the user is trying to move into a water tile then it will reject it
+                    //because it is not a legal move.
                     legal = false;  //can't walk on water
                 } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.FLAG) {
                     legal = true;
                 } else if (gameboard[chosenX][chosenY + 1].getRank() == Unit.BOMB){
                     legal = isMinerAttack(chosen.getRank());
                 } else if (gameboard[chosenX][chosenY + 1].getOwnerID() != playerID) {
-                    //attack
+                    //It checks if moving up is legal by seeing if the it is a enemy unit
                     int opponentRank = gameboard[chosenX][chosenY + 1].getRank();
                     if (opponentRank > chosen.getRank()) {
+                        //if users rank is lower than the player rank then the opponent unit then
+                        //it will "kill" the users unit.
                         chosen.setStatus(false);  //you died
                         gameboard[chosenX][chosenY] = null;  //empty space you were just in
                         legal = true;
                     } else {
+                        //if users rank is higher than the player rank then the opponent unit then
+                        //it will "kill" the enemy unit and move the unit down one space.
                         gameboard[chosenX][chosenY + 1].setStatus(false);  //they died
                         gameboard[chosenX][chosenY] = null;  //empty the space you were just in
                         chosen.setyLoc(chosenY + 1);  //move into opponent's space
@@ -267,10 +288,14 @@ public class StrategoGameState {
 
             case 3:  //aka "left"
                 if (gameboard[chosenX - 1][chosenY] == null && chosenX - 1 >= 0) {
+                    //It checks if moving left is legal by seeing if the it is a empty tile
+                    //and if the new move is within the bounds of the board
                     chosen.setxLoc(chosenX - 1);
                     gameboard[chosenX - 1][chosenY] = chosen;
                     legal = true;
                 } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.WATER) {
+                    //If the user is trying to move into a water tile then it will reject it
+                    //because it is not a legal move.
                     legal = false;
                 } else if (gameboard[chosenX - 1][chosenY].getRank() == Unit.FLAG) {
                     legal = true;
@@ -281,10 +306,14 @@ public class StrategoGameState {
                     int opponentRank = gameboard[chosenX - 1][chosenY].getRank();
 
                     if (opponentRank > chosen.getRank()) {
+                        //if users rank is lower than the player rank then the opponent unit then
+                        //it will "kill" the users unit.
                         chosen.setStatus(false);  //you died
                         gameboard[chosenX][chosenY] = null;
                         legal = true;
                     } else {
+                        //if users rank is higher than the player rank then the opponent unit then
+                        //it will "kill" the enemy unit and move the unit left one space.
                         gameboard[chosenX - 1][chosenY].setStatus(false);  //they died
                         gameboard[chosenX][chosenY] = null;  //empty your spot
                         chosen.setxLoc(chosenX - 1);
@@ -300,6 +329,8 @@ public class StrategoGameState {
             case 4:  //aka "right"
                 if (chosenX + 1 <= 9) {
                     if (gameboard[chosenX + 1][chosenY] == null && chosenX + 1 <= 9) {
+                        //It checks if moving down is legal by seeing if the it is a empty tile
+                        //and if the new move is within the bounds of the board
                         chosen.setxLoc(chosenX + 1);
                         gameboard[chosenX + 1][chosenY] = chosen;
                         legal = true;
@@ -315,10 +346,14 @@ public class StrategoGameState {
                             int opponentRank = gameboard[chosenX + 1][chosenY].getRank();
 
                             if (opponentRank > chosen.getRank()) {
+                                //if users rank is lower than the player rank then the opponent unit then
+                                //it will "kill" the users unit.
                                 chosen.setStatus(false);  //you died
                                 gameboard[chosenX][chosenY] = null;
                                 legal = true;
                             } else if (opponentRank <= chosen.getRank()) {
+                                //if users rank is higher than the player rank then the opponent unit then
+                                //it will "kill" the enemy unit and move the unit right one space.
                                 gameboard[chosenX + 1][chosenY].setStatus(false);  //they died
                                 gameboard[chosenX][chosenY] = null;  //empty your space
                                 chosen.setxLoc(chosenX + 1);
@@ -354,6 +389,7 @@ public class StrategoGameState {
      * @param chosenP    the Unit being selected
      */
     public boolean selectPiece(int playerID, Unit chosenP){
+        //Checks to see if the unit selected is one of the user's troop
         if (chosenP.getOwnerID() == playerID) {
             clearSelection(playerID);  //sets all Units to false
             chosenP.setSelected(true); //sets selection to true
@@ -372,8 +408,10 @@ public class StrategoGameState {
      * @param playerId  the ID of the user attempting to make a selection
      */
     public void clearSelection(int playerId) {
+        //Clears the board of all selected troops for the given player
         switch (playerId) {
             case 0:
+                //it loops through the list and sets the selection to false
                 for(int i= 0; i <= p1Troops.size(); i++){
                     p1Troops.get(i).setSelected(false);
                 }
@@ -399,24 +437,26 @@ public class StrategoGameState {
      * @return          true if alive and movement is valid, false if not
      */
     public boolean placePiece(int playerID, Unit unit, int x, int y) {
+        //Checks to see which player is placing, if the unit is already place, and if the player is
+        //placing on their side of the field.
         if (unit.getStatus()) {
-            if (playerID == 0 && y < 4) {  //< 4 is for boundary purposes, ensures piece is on your side
+            if (playerID == 0 && y < 4) {  //< 4 is for boundary purposes, ensures piece is on player 1 side
                 unit.setxLoc(x);
                 unit.setxLoc(y);
                 gameboard[x][y] = unit;
                 return true;
             }
-            else if (playerID == 1 && y > 5) {
+            else if (playerID == 1 && y > 5) { // >5 is for boundary purposes, ensures piece is on player 2 side
                 unit.setxLoc(x);
                 unit.setxLoc(y);
                 gameboard[x][y] = unit;
                 return true;
             }
-            else {
+            else { //Not a legal placement
                 return false;
             }
         }
-        else {
+        else { //Not a legal placement
             return false;
         }
     }//placePiece
@@ -429,6 +469,7 @@ public class StrategoGameState {
      * @return      the unit at the given index in the player's "hand"
      */
     public Unit getUnit(int id, int index){
+        //Checks the Id and then returns the Unit at that index of the pNumTroops list.
        if(id == 0){
            return p1Troops.get(index);
        }
@@ -437,6 +478,12 @@ public class StrategoGameState {
        }
     }//getUnit
 
+    /**
+     * isMinerAttack
+     *
+     * @param chosenRank    Takes the rank of the attcking unit
+     * @return              Returns a boolean to to tell if the attcking unit is a miner or not.
+     */
     public boolean isMinerAttack(int chosenRank){
         if(chosenRank == Unit.MINER){
             return true;

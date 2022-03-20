@@ -52,34 +52,17 @@ public class Unit {
         isDead = false;
     }
 
-    /**
-     * drawMe
-     *
-     * method to get the Unit onto the GUI board
-     *
-     * @param canvas  the drawing space for the Unit
-     */
-    public void drawMe(Canvas canvas){
-        //TODO: need a rect somewhere with constant/final dimensions
-        //TODO: need a color (designated by owner id?)
-        //TODO: maybe xy locations to be drawn in? no clue how we'll get those
-        //TODO: death by ifs for each rank's visual aspect?
-
-    }
-
-    public int getOwnerID(){
-        return this.ownerID;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
+    //All the getter and setters for the different variables.
     public void setSelected(boolean selected) {
+        //Check to see if the unit is dead or not.
         if(!isDead) {
             isSelected = selected;
         }
     }
+
+    public int getOwnerID(){return this.ownerID;}
+
+    public int getRank() { return rank;}
 
     public boolean getSelected(){
         return this.isSelected;
@@ -109,8 +92,14 @@ public class Unit {
         this.yLoc = yLoc;
     }
 
+    /**
+     * nameRank
+     *
+     * @return      The name of the unit.
+     */
     public String nameRank() {
         String name;
+        //Determined the rank based on the number rank of the unit
         switch (this.rank)
         {
             case 1:
